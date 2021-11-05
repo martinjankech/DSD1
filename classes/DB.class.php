@@ -27,23 +27,45 @@ class DB{
     private $dbPassword2 = "123";
     private $dbName2    = "restaurant";
     
+    
+    
+    
     public function __construct(){
         
             // Connect to the database
-            $conn = new mysqli($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
-            $conn1 = new mysqli($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            $conn2 = new mysqli($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
+            //$conn = new mysqli($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
+            //$conn1 = new mysqli($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
+            //$conn2 = new mysqli($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
+
+            $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName );  
+            $this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
+            $this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);      
+           
             
             
-            if($conn->connect_error){
-                die("Failed to connect with MySQL: " . $conn->connect_error);
-            }else{
-                $this->conn = $conn;
-                $this->conn1 = $conn1;
-                $this->conn2 = $conn2;
-            }
+            //if($conn->connect_error){
+               // die("Failed to connect with MySQL: " . $conn->connect_error);
+            //}else{
+               // $this->conn = $conn;
+                //$this->conn1 = $conn1;
+                //$this->conn2 = $conn2;
+            //}
+    }
+    
+    
+    public function connectToDBS($servername, $username, $password, $dbname) {
+        try {
+            $conn = new mysqli($servername,$username,$password,$dbname);
+    
+            return $conn;
+        } catch (mysqli_sql_exception $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return 0;
+        }
     }
 
+
+  
      /*
      * Returns rows from the database based on the conditions
      * @param string name of the table
@@ -145,7 +167,7 @@ class DB{
             }
             foreach($data as $key=>$val){
                 $pre = ($i > 0)?', ':'';
-                $colvalSet .= $pre.$key."='".$this->db->real_escape_string($val)."'";
+                $colvalSet .= $pre.$key."='".$this->conn->real_escape_string($val)."'";
                 $i++;
             }
             if(!empty($conditions)&& is_array($conditions)){
@@ -158,8 +180,8 @@ class DB{
                 }
             }
             $query = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
-            $update = $this->db->query($query);
-            return $update?$this->db->affected_rows:false;
+            $update =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
+            return $update?$this->conn->affected_rows:false;
         }else{
             return false;
         }
@@ -182,7 +204,7 @@ class DB{
             }
         }
         $query = "DELETE FROM ".$table.$whereSql;
-        $delete = $this->db->query($query);
+        $delete =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
         return $delete?true:false;
     }
 }
