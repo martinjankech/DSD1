@@ -7,6 +7,7 @@
  * @license    http://www.codexworld.com/license
  */
 class DB{
+    //velky komp
     private $conn;
     private $conn1;
     private $conn2;
@@ -26,7 +27,48 @@ class DB{
     private $dbUsername2 = "velkykomp";
     private $dbPassword2 = "123";
     private $dbName2    = "restaurant";
+   
+    // notebook 1
+    // private $conn;
+    // private $conn1;
+    // private $conn2;
+    // private $dbHost     = "localhost";
+    // private $dbUsername = "root";
+    // private $dbPassword = "";
+    // private $dbName    = "restaurant";
+
+
+    // private $dbHost1     = "25.69.87.199";
+    // private $dbUsername1 = "notebook1";
+    // private $dbPassword1 = "123";
+    // private $dbName1     = "restaurant";
+
+
+    // private $dbHost2     = "25.42.132.140";
+    // private $dbUsername2 = "notebook1";
+    // private $dbPassword2 = "123";
+    // private $dbName2    = "restaurant";
+
+    //notebook2
+    // private $conn;
+    // private $conn1;
+    // private $conn2;
+    // private $dbHost     = "localhost";
+    // private $dbUsername = "root";
+    // private $dbPassword = "";
+    // private $dbName    = "restaurant";
+
     
+    // private $dbHost1     = "25.35.50.147";
+    // private $dbUsername1 = "notebook2";
+    // private $dbPassword1 = "123";
+    // private $dbName1     = "restaurant";
+
+
+    // private $dbHost2     = "25.69.87.199";
+    // private $dbUsername2 = "notebook2";
+    // private $dbPassword2 = "123";
+    // private $dbName2    = "restaurant";
     
     
     
