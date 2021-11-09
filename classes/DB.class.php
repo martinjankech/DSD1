@@ -1,4 +1,10 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+//error_reporting(0);
+
+
+
 /*
  * DB Class
  * This class is used for database related (connect, insert, update, and delete) operations
@@ -11,6 +17,7 @@ class DB{
     private $conn;
     private $conn1;
     private $conn2;
+    private $aviableconnection=[];
     private $dbHost     = "localhost";
     private $dbUsername = "root";
     private $dbPassword = "";
@@ -75,15 +82,44 @@ class DB{
     public function __construct(){
         
             // Connect to the database
-            //$conn = new mysqli($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
-            //$conn1 = new mysqli($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            //$conn2 = new mysqli($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
-
-            $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName );  
+            $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
             $this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            $this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);      
+            //$this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
+
            
+
+// $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName );  
+            //$this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
+            //$this->conn2= $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);  
+            $connection = [
+                'conn' => $this->conn,
+                'conn1' => $this->conn1,
+                'conn2' => $this->conn2
+            ];
             
+            //echo substr($this->conn1->host_info,0 ,12);
+            echo gettype($this->conn1);
+            // do privatnej premennej avaibleconnectio si vložime len tie objekty typu mysql teda tie kde bolo pripojenie na databazu uspesne a nevratili hodnotu false 
+           foreach($connection as $value){
+              if($value instanceof mysqli){
+               array_push($this->aviableconnection ,$value);
+            
+
+            }}
+               //var_dump($this->aviableconnection);
+               
+        
+               
+               
+             
+               
+               
+               
+               
+}
+
+
+
             
             //if($conn->connect_error){
                // die("Failed to connect with MySQL: " . $conn->connect_error);
@@ -92,19 +128,35 @@ class DB{
                 //$this->conn1 = $conn1;
                 //$this->conn2 = $conn2;
             //}
-    }
+    
     
     
     public function connectToDBS($servername, $username, $password, $dbname) {
-        try {
-            $conn = new mysqli($servername,$username,$password,$dbname);
+  
+            // $conn = mysqli_connect($servername,$username,$password,$dbname);
+            // //$conn -> options(MYSQLI_OPT_CONNECT_TIMEOUT, 2);
+            // if ($conn -> connect_errno) {
+            //     echo "Failed to connect to MySQL: " . $conn -> connect_error;
+            //     exit();
+            // }     
+        
+            //     else{
+
+            //         return $conn;
+            //     }
+
+            if($conn = mysqli_connect($servername,$username,$password,$dbname)){
+                return $conn;}
+                else 
+
+                 {;
+                     
+                    return 0;}
+            }
+            
+          
+             
     
-            return $conn;
-        } catch (mysqli_sql_exception $e) {
-            echo "Connection failed: " . $e->getMessage();
-            return 0;
-        }
-    }
 
 
   
@@ -186,7 +238,16 @@ class DB{
                 $i++;
             }
             $query = "INSERT INTO ".$table." (".$columns.") VALUES (".$values.")";
-            $insert = $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
+             foreach($this->aviableconnection as $this->value)
+            {
+                 $insert =  $this->value->query($query);   
+             }
+             $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+            fwrite($myfile, $query);
+            fclose($myfile);
+            
+           // $insert = $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
+          
             return $insert?$this->conn->insert_id:false;
         }else{
             return false;
@@ -222,7 +283,11 @@ class DB{
                 }
             }
             $query = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
-            $update =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
+            foreach($this->aviableconnection as $this->value)
+            {
+                 $update =  $this->value->query($query);   
+             }
+            //$update =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
             return $update?$this->conn->affected_rows:false;
         }else{
             return false;
@@ -246,7 +311,11 @@ class DB{
             }
         }
         $query = "DELETE FROM ".$table.$whereSql;
-        $delete =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
+        foreach($this->aviableconnection as $this->value)
+        {
+             $delete =  $this->value->query($query);   
+         }
+        //$delete =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
         return $delete?true:false;
     }
 }
