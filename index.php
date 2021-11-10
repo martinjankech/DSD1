@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <title>Document</title>
+    
 </head>
 <body>
+<?php
+//error_reporting(E_ERROR | E_PARSE);
+?>
+    
 <script>
 // Update the users data list
 function getUsers(){
@@ -30,12 +35,15 @@ function userAction(type, id){
     if(type == 'add'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type+'&id='+id;
+        console.log(userData)
     }else if (type == 'edit'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type;
+        console.log(userData)
     }else{
         frmElement = $(".row");
         userData = 'action_type='+type+'&id='+id;
+        console.log(userData)
     }
     frmElement.find('.statusMsg').html('');
     $.ajax({
@@ -48,7 +56,10 @@ function userAction(type, id){
         },
         success:function(resp){
             frmElement.find('.statusMsg').html(resp.msg);
+           // alert('ajax was called')
+            console.log(resp.msg)
             if(resp.status == 1){
+                console.log(resp.status)
                 if(type == 'add'){
                     frmElement.find('form')[0].reset();
                 }
@@ -79,10 +90,12 @@ function editUser(id){
 $(function(){
     $('#modalUserAddEdit').on('show.bs.modal', function(e){
         var type = $(e.relatedTarget).attr('data-type');
+        console.log(type)
         var userFunc = "userAction('add');";
         if(type == 'edit'){
             userFunc = "userAction('edit');";
             var rowId = $(e.relatedTarget).attr('rowID');
+            console.log(rowId)
             editUser(rowId);
         }
         $('#userSubmit').attr("onclick", userFunc);
@@ -100,13 +113,14 @@ $(function(){
 require_once 'classes/DB.class.php';
 $db = new DB();
 
+
 // Fetch the users data
 $users = $db->getRows('users');
 ?>
  <div class="container">
     <div class="row">
         <div class="col-md-12 head">
-            <h5>Users</h5>
+            <h5>Users Big PC (25.69.87.199)</h5>
             <!-- Add link -->
             <div class="float-right">
                 <a href="javascript:void(0);" class="btn btn-success" data-type="add" data-toggle="modal" data-target="#modalUserAddEdit"><i class="plus"></i> New User</a>

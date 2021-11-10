@@ -1,7 +1,10 @@
 <?php
+//error_reporting(E_ERROR | E_PARSE);
 // Include and initialize DB class
 require_once 'classes/DB.class.php';
 $db = new DB();
+
+
 
 // Database table name
 $tblName = 'users';
@@ -55,7 +58,7 @@ if(!empty($_POST['action_type'])){
         }
         if(empty($phone)){
             $verr = 1;
-            $msg .= 'Please enter your phone no.<br/>';
+            $msg .= 'Please enter your phone num.<br/>';
         }
         
         if($verr == 0){
@@ -66,6 +69,9 @@ if(!empty($_POST['action_type'])){
                 'phone' => $phone
             );
             $insert = $db->insert($tblName, $userData);
+            //$myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+            //fwrite($myfile, $insert);
+            //fclose($myfile);
             
             if($insert){
                 $status = 1;
