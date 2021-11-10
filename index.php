@@ -13,6 +13,9 @@
 <body>
 <?php
 //error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+ini_set('mysql.connect_timeout', 2);
+error_reporting(E_ALL);
 ?>
     
 <script>
@@ -35,7 +38,7 @@ function userAction(type, id){
     if(type == 'add'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type+'&id='+id;
-        console.log(userData)
+       // console.log(userData)
     }else if (type == 'edit'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type;
@@ -43,7 +46,7 @@ function userAction(type, id){
     }else{
         frmElement = $(".row");
         userData = 'action_type='+type+'&id='+id;
-        console.log(userData)
+       // console.log(userData)
     }
     frmElement.find('.statusMsg').html('');
     $.ajax({
@@ -111,7 +114,9 @@ $(function(){
 <?php
 // Include and initialize DB class
 require_once 'classes/DB.class.php';
-$db = new DB();
+session_start();
+$_SESSION["dbs"]= $db = new DB();
+$db->connect();
 
 
 // Fetch the users data

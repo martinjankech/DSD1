@@ -1,9 +1,12 @@
 <?php
 //error_reporting(E_ERROR | E_PARSE);
 // Include and initialize DB class
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_ALL);
+ini_set('mysql.connect_timeout', 2);
 require_once 'classes/DB.class.php';
 $db = new DB();
-
+$db->connect();
 
 
 // Database table name

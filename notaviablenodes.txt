@@ -1,0 +1,4 @@
+p:25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-10 22:37:30', '2021-11-10 22:37:30')
+25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-10 23:38:28', '2021-11-10 23:38:28')
+25.35.50.147:UPDATE users SET name='Martin Jankech', email='jankech3@gmail.com', phone='0907201562', modified='2021-11-10 23:45:09' WHERE id = '19'
+25.35.50.147:DELETE FROM users WHERE id = '20'

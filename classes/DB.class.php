@@ -1,8 +1,12 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// ini_set('display_errors', 0);
+// ini_set('display_startup_errors', 0);
 ini_set('mysql.connect_timeout', 2);
 //error_reporting(0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_ALL);
+
+
 
 
 
@@ -20,7 +24,7 @@ class DB{
     private $conn2;
     private $aviableconnection=[];
     private $notaviableconnection=[];
-    private $dbHost     = "localhost";
+    private $dbHost     = "127.0.0.1";
     private $dbUsername = "root";
     private $dbPassword = "";
     private $dbName    = "restaurant";
@@ -84,40 +88,63 @@ class DB{
     public function __construct(){
         
             // Connect to the database
-            $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
-            $this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            $this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
+           // $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
+            //$this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
+            //$this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
 
            
 
 // $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName );  
             //$this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
             //$this->conn2= $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);  
-            $connection = [
-                'conn' => $this->conn,
-                'conn1' => $this->conn1,
-                'conn2' => $this->conn2
-            ];
+            // $connection = [
+            //     'conn' => $this->conn,
+            //     'conn1' => $this->conn1,
+            //     'conn2' => $this->conn2
+            // ];
             
             //echo substr($this->conn1->host_info,0 ,12);
             //echo gettype($this->conn1);
             // do privatnej premennej avaibleconnectio si vložime len tie objekty typu mysql teda tie kde bolo pripojenie na databazu uspesne a nevratili hodnotu false
             
-           foreach($connection as $value){
-              if($value instanceof mysqli){
-               array_push($this->aviableconnection ,$value);
-            }
-        else if(is_string($value)){
-        array_push($this->notaviableconnection,$value);
+        //    foreach($connection as $value){
+        //       if($value instanceof mysqli){
+        //        array_push($this->aviableconnection ,$value);
+        //     }
+        // else if(is_string($value)){
+        // array_push($this->notaviableconnection,$value);
 
-        }}
-        $this->synchronize();
+        // }}
+        // $this->synchronize();
                //var_dump($this->aviableconnection); 
               // echo($this->notaviableconnection[0]."+".$this->notaviableconnection[1]); 
                
         
                    
                
+}
+
+
+public function connect(){
+
+
+    $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
+    $this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
+    $this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
+    $connection = [
+        'conn' => $this->conn,
+        'conn1' => $this->conn1,
+        'conn2' => $this->conn2
+    ];
+    foreach($connection as $value){
+        if($value instanceof mysqli){
+         array_push($this->aviableconnection ,$value);
+      }
+  else if(is_string($value)){
+  array_push($this->notaviableconnection,$value);
+
+  }}
+
 }
 // synhronizuje databazu ktora bola odpojena a naskocila/precita vsetky sql prikazy z notavaiblenodes.txt a vykona ich na danej databaze
 public function synchronize (){
@@ -130,7 +157,7 @@ if(file_exists("notaviablenodes.txt")){
     for ($i=0; $i<sizeof($lines);$i++){
         // oddeli ip od sql prikazu
         $boderOfIP=strpos($lines[$i],":");
-        $ip= substr($lines[$i],0,$boderOfIP); 
+        $ip= substr($lines[$i],0,$boderOfIP-1); 
         $sqlcommand=substr($lines[$i],$boderOfIP+1); 
         // pokusy sa pripojit na databazu ktorej ip nasiel v textovom subore
     $db=$this->connectToDBS($ip,$this->dbUsername1, $this->dbPassword1, $this->dbName1);
@@ -142,7 +169,7 @@ if(file_exists("notaviablenodes.txt")){
     array_push($deletedrows, $i);
     
 }
-    else {echo "synchronize with".$ip. "was not sucessful".PHP_EOL;
+    else {//echo "synchronize with".$ip. "was not sucessful".PHP_EOL;
     }
 }
     // zmaze vsetky riadky ktore boli vykonane
@@ -198,7 +225,7 @@ if(file_exists("notaviablenodes.txt")){
             //         return 0;}
             try
 {
-    if ($db = mysqli_connect($servername, $username, $password, $dbname))
+    if ($db = @mysqli_connect($servername, $username, $password, $dbname))
     {
        return $db;
     }
@@ -355,6 +382,16 @@ catch(Exception $e)
             {
                  $update =  $this->value->query($query);   
              }
+             if (!empty($this->notaviableconnection)){
+
+                $myfile = fopen("notaviablenodes.txt", "a+") or die("Unable to open file!");
+              
+                foreach($this->notaviableconnection as $this->value)
+                //$current= file_get_contents($myfile);
+                fwrite($myfile, $this->value.":".$query.PHP_EOL);
+                fclose($myfile);
+
+             }
             //$update =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
             return $update?$this->conn->affected_rows:false;
         }else{
@@ -382,6 +419,16 @@ catch(Exception $e)
         foreach($this->aviableconnection as $this->value)
         {
              $delete =  $this->value->query($query);   
+         }
+         if (!empty($this->notaviableconnection)){
+
+            $myfile = fopen("notaviablenodes.txt", "a+") or die("Unable to open file!");
+          
+            foreach($this->notaviableconnection as $this->value)
+            //$current= file_get_contents($myfile);
+            fwrite($myfile, $this->value.":".$query.PHP_EOL);
+            fclose($myfile);
+
          }
         //$delete =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
         return $delete?true:false;
