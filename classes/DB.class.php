@@ -130,7 +130,7 @@ if(file_exists("notaviablenodes.txt")){
     if($db instanceof mysqli)
 {
         $db->query($sqlcommand);
-    echo "uzol".$ip."bol synchronizavany s ostatnymi uzlami".PHP_EOL;
+    echo "uzol ".$ip." bol synchronizovany s ostatnymi uzlami".PHP_EOL;
     array_push($deletedrows, $i);
     
 }
