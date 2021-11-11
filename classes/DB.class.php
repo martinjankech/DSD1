@@ -110,8 +110,8 @@ public function connect(){
   else if(is_string($value)){
   array_push($this->notaviableconnection,$value);
   // tu by mohlo vypisovat ktory uzol je odpojenz avsak potom prestanu fungovat ajaxove volania a zobrazovanie neviem čo je ten bug treba doriešiť aby to bolo pekne
-  //echo '<div class="alert alert-danger" role="alert">
-   // uzol '.$value.'je odpojený !
+ //echo '<div class="alert alert-danger" role="alert">
+   // uzol '.$value.' je odpojený !
 //</div>';
 
   }}
@@ -371,7 +371,16 @@ catch(Exception $e)
         //$delete =  $this->conn->query($query)&&$this->conn1->query($query)&&$this->conn2->query($query);
         return $delete?true:false;
     }
+    function getNotaviableconnection() { 
+        return $this->notaviableconnection; 
+   } 
+
+   function setNotaviableconnection($notaviableconnection) {  
+       $this->notaviableconnection = $notaviableconnection; 
+   } 
 }
 
 
+
+	
 ?>

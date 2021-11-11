@@ -118,6 +118,18 @@ session_start();
 $_SESSION["dbs"]= $db = new DB();
 $db->connect();
 
+if(!empty($db->getNotaviableconnection())){
+
+    foreach($db->getNotaviableconnection() as $value){
+
+        echo '<div class="alert alert-danger" role="alert">
+         uzol '.$value.' je odpojený !
+     </div>';
+
+    }
+
+
+}
 
 // Fetch the users data
 $users = $db->getRows('users');
