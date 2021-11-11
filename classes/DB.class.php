@@ -166,7 +166,7 @@ if(file_exists("notaviablenodes.txt")){
     if($db instanceof mysqli)
 {
         $db->query($sqlcommand);
-    echo "command was sucesfull".PHP_EOL;
+    echo "uzol".$ip."bol synchronizavany s ostatnymi uzlami".PHP_EOL;
     array_push($deletedrows, $i);
     
 }
@@ -178,7 +178,7 @@ if(file_exists("notaviablenodes.txt")){
     { unset($lines[$value]);
         
     }
-    // prepise subor
+    // prepise subor]
     file_put_contents("notaviablenodes.txt", implode("", $lines));
     
 
