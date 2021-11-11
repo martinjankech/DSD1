@@ -11,7 +11,7 @@
 </head>
 <body>
 <?php
-ini_set('mysql.connect_timeout', 2);
+
 class DB{
     //velky komp
     private $conn;

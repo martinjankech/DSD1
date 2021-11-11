@@ -1,10 +1,9 @@
 <?php
-// ini_set('display_errors', 0);
-// ini_set('display_startup_errors', 0);
-ini_set('mysql.connect_timeout', 2);
-//error_reporting(0);
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ ini_set('display_startup_errors', 0);
+
+error_reporting(0);
+
 
 
 
@@ -144,6 +143,7 @@ public function connect(){
   array_push($this->notaviableconnection,$value);
 
   }}
+  $this->synchronize();
 
 }
 // synhronizuje databazu ktora bola odpojena a naskocila/precita vsetky sql prikazy z notavaiblenodes.txt a vykona ich na danej databaze
@@ -157,8 +157,9 @@ if(file_exists("notaviablenodes.txt")){
     for ($i=0; $i<sizeof($lines);$i++){
         // oddeli ip od sql prikazu
         $boderOfIP=strpos($lines[$i],":");
-        $ip= substr($lines[$i],0,$boderOfIP-1); 
+        $ip= substr($lines[$i],0,$boderOfIP); 
         $sqlcommand=substr($lines[$i],$boderOfIP+1); 
+        
         // pokusy sa pripojit na databazu ktorej ip nasiel v textovom subore
     $db=$this->connectToDBS($ip,$this->dbUsername1, $this->dbPassword1, $this->dbName1);
    // ak je objekt mzsqly pripojenie bolo uspesne  a vykona mysqli prikaz na danaj databaze
@@ -223,14 +224,17 @@ if(file_exists("notaviablenodes.txt")){
             //      {;
                      
             //         return 0;}
+            
             try
-{
-    if ($db = @mysqli_connect($servername, $username, $password, $dbname))
+{ $timeout = 1;  
+$link = mysqli_init( );
+$link->options( MYSQLI_OPT_CONNECT_TIMEOUT, $timeout ); 
+if($link->real_connect($servername, $username, $password, $dbname) )
     {
-       return $db;
+       return $link;
     }
     else
-    { ;
+    { 
         throw new Exception('Unable to connect to noid '.$servername);
     }
 }
@@ -325,9 +329,10 @@ catch(Exception $e)
                 $i++;
             }
             $query = "INSERT INTO ".$table." (".$columns.") VALUES (".$values.")";
-             foreach($this->aviableconnection as $this->value)
+             foreach($this->aviableconnection as $value)
             {
-                 $insert =  $this->value->query($query);   
+                 $insert =  $value->query($query);   
+                 //var_dump($insert);
              }
              if (!empty($this->notaviableconnection)){
 

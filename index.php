@@ -38,7 +38,7 @@ function userAction(type, id){
     if(type == 'add'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type+'&id='+id;
-       // console.log(userData)
+       console.log(userData)
     }else if (type == 'edit'){
         frmElement = $("#modalUserAddEdit");
         userData = frmElement.find('form').serialize()+'&action_type='+type;
@@ -46,7 +46,7 @@ function userAction(type, id){
     }else{
         frmElement = $(".row");
         userData = 'action_type='+type+'&id='+id;
-       // console.log(userData)
+       console.log(userData)
     }
     frmElement.find('.statusMsg').html('');
     $.ajax({
