@@ -1,5 +1,0 @@
-25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-11 01:33:34', '2021-11-11 01:33:34')
-25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-11 01:35:45', '2021-11-11 01:35:45')
-25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-11 01:38:42', '2021-11-11 01:38:42')
-25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-11 01:39:30', '2021-11-11 01:39:30')
-25.35.50.147:INSERT INTO users (name, email, phone, created, modified) VALUES ('Martin Jankech', 'jankech3@gmail.com', '0907201562', '2021-11-11 01:39:56', '2021-11-11 01:39:56')

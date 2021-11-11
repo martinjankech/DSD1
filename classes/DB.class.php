@@ -173,11 +173,12 @@ if(file_exists("notaviablenodes.txt")){
     else {//echo "synchronize with".$ip. "was not sucessful".PHP_EOL;
     }
 }
-    // zmaze vsetky riadky ktore boli vykonane
+    // zmaze vsetky riadky v poli ktore boli vykonane
      foreach($deletedrows as $value)
     { unset($lines[$value]);
         
     }
+    // prepise subor
     file_put_contents("notaviablenodes.txt", implode("", $lines));
     
 
