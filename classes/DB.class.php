@@ -44,6 +44,8 @@ class DB{
     // private $conn;
     // private $conn1;
     // private $conn2;
+   // private $aviableconnection=[];
+    //private $notaviableconnection=[];
     // private $dbHost     = "localhost";
     // private $dbUsername = "root";
     // private $dbPassword = "";
@@ -65,6 +67,8 @@ class DB{
     // private $conn;
     // private $conn1;
     // private $conn2;
+    //private $aviableconnection=[];
+    //private $notaviableconnection=[];
     // private $dbHost     = "localhost";
     // private $dbUsername = "root";
     // private $dbPassword = "";
@@ -105,6 +109,10 @@ public function connect(){
       }
   else if(is_string($value)){
   array_push($this->notaviableconnection,$value);
+  // tu by mohlo vypisovat ktory uzol je odpojenz avsak potom prestanu fungovat ajaxove volania a zobrazovanie neviem čo je ten bug treba doriešiť aby to bolo pekne
+  //echo '<div class="alert alert-danger" role="alert">
+   // uzol '.$value.'je odpojený !
+//</div>';
 
   }}
   $this->synchronize();
@@ -130,7 +138,10 @@ if(file_exists("notaviablenodes.txt")){
     if($db instanceof mysqli)
 {
         $db->query($sqlcommand);
-    echo "uzol ".$ip." bol synchronizovany s ostatnymi uzlami".PHP_EOL;
+    //echo "uzol ".$ip." bol synchronizovany s ostatnymi uzlami".PHP_EOL;
+    echo '<div class="alert alert-success" role="alert">
+    uzol '.$ip.' bol synchronizovany s ostatnymi uzlami !
+</div>';
     array_push($deletedrows, $i);
     
 }
