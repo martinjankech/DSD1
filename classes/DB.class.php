@@ -84,43 +84,7 @@ class DB{
     
     
     
-    public function __construct(){
-        
-            // Connect to the database
-           // $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
-            //$this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            //$this->conn2 = $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);
-
-           
-
-// $this->conn = $this->connectToDBS($this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName );  
-            //$this->conn1 = $this->connectToDBS($this->dbHost1, $this->dbUsername1, $this->dbPassword1, $this->dbName1);
-            //$this->conn2= $this->connectToDBS($this->dbHost2, $this->dbUsername2, $this->dbPassword2, $this->dbName2);  
-            // $connection = [
-            //     'conn' => $this->conn,
-            //     'conn1' => $this->conn1,
-            //     'conn2' => $this->conn2
-            // ];
-            
-            //echo substr($this->conn1->host_info,0 ,12);
-            //echo gettype($this->conn1);
-            // do privatnej premennej avaibleconnectio si vložime len tie objekty typu mysql teda tie kde bolo pripojenie na databazu uspesne a nevratili hodnotu false
-            
-        //    foreach($connection as $value){
-        //       if($value instanceof mysqli){
-        //        array_push($this->aviableconnection ,$value);
-        //     }
-        // else if(is_string($value)){
-        // array_push($this->notaviableconnection,$value);
-
-        // }}
-        // $this->synchronize();
-               //var_dump($this->aviableconnection); 
-              // echo($this->notaviableconnection[0]."+".$this->notaviableconnection[1]); 
-               
-        
-                   
-               
+    public function __construct(){              
 }
 
 
@@ -186,46 +150,9 @@ if(file_exists("notaviablenodes.txt")){
     
 }
 }
-
-
-
-
-
-
-
-            
-            //if($conn->connect_error){
-               // die("Failed to connect with MySQL: " . $conn->connect_error);
-            //}else{
-               // $this->conn = $conn;
-                //$this->conn1 = $conn1;
-                //$this->conn2 = $conn2;
-            //}
     
     
-    
-    public function connectToDBS($servername, $username, $password, $dbname) {
-  
-            // $conn = mysqli_connect($servername,$username,$password,$dbname);
-            // //$conn -> options(MYSQLI_OPT_CONNECT_TIMEOUT, 2);
-            // if ($conn -> connect_errno) {
-            //     echo "Failed to connect to MySQL: " . $conn -> connect_error;
-            //     exit();
-            // }     
-        
-            //     else{
-
-            //         return $conn;
-            //     }
-
-            // if($conn = mysqli_connect($servername,$username,$password,$dbname)){
-            //     return $conn;}
-            //     else 
-
-            //      {;
-                     
-            //         return 0;}
-            
+    public function connectToDBS($servername, $username, $password, $dbname) {    
             try
 { $timeout = 1;  
 $link = mysqli_init( );
@@ -245,12 +172,6 @@ catch(Exception $e)
     return $servername;
 }
             }
-            
-          
-             
-    
-
-
   
      /*
      * Returns rows from the database based on the conditions
