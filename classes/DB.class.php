@@ -46,6 +46,7 @@ class DB{
     // private $conn;
     // private $conn1;
     // private $conn2;
+    //private $nodeip="25.35.50.147";
    // private $aviableconnection=[];
     //private $notaviableconnection=[];
     // private $dbHost     = "localhost";
@@ -69,8 +70,10 @@ class DB{
     // private $conn;
     // private $conn1;
     // private $conn2;
+   
     //private $aviableconnection=[];
     //private $notaviableconnection=[];
+    //private $nodeip="25.42.132.140";
     // private $dbHost     = "localhost";
     // private $dbUsername = "root";
     // private $dbPassword = "";
