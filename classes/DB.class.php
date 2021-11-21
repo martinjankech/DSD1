@@ -22,11 +22,12 @@ class DB{
     private $conn;
     private $conn1;
     private $conn2;
+    private $nodeip="25.69.87.199";
     private $aviableconnection=[];
     private $notaviableconnection=[];
-    private $dbHost     = "25.69.87.199";
-    private $dbUsername = "localhost";
-    private $dbPassword = "123";
+    private $dbHost     = "localhost";
+    private $dbUsername = "root";
+    private $dbPassword = "";
     private $dbName    = "restaurant";
 
     
@@ -260,7 +261,7 @@ catch(Exception $e)
                 $data['modified'] = date("Y-m-d H:i:s");
             }
             if(!array_key_exists('node_created',$data)){
-                $data['node_created'] = $this->dbHost;
+                $data['node_created'] = $this->nodeip;
             }
             //if(!array_key_exists('node_modified',$data)){
               //  $data['node_modified'] = $this->dbHost;
@@ -313,7 +314,7 @@ catch(Exception $e)
                 $data['modified'] = date("Y-m-d H:i:s");
             }
             if(!array_key_exists('node_modified',$data)){
-                $data['node_modified'] = $this->dbHost;
+                $data['node_modified'] = $this->nodeip;
             }
             foreach($data as $key=>$val){
                 $pre = ($i > 0)?', ':'';
@@ -392,9 +393,21 @@ catch(Exception $e)
    function setNotaviableconnection($notaviableconnection) {  
        $this->notaviableconnection = $notaviableconnection; 
    } 
+   function getDbHost() { 
+    return $this->dbHost; 
+} 
+
+function setDbHost($dbHost) {  
+   $this->dbHost = $dbHost; 
+} 
+   
 }
 
 
+
+	
+
+	
 
 	
 ?>

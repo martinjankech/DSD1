@@ -34,6 +34,8 @@ if(!empty($_POST['action_type'])){
                 echo '<td>'.$row['name'].'</td>';
                 echo '<td>'.$row['email'].'</td>';
                 echo '<td>'.$row['phone'].'</td>';
+                echo '<td>'.$row['node_created'].'</td>';
+               
                 echo '<td><a href="javascript:void(0);" class="btn btn-warning" rowID="'.$row['id'].'" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
                 <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm(\'Are you sure to delete data?\')?userAction(\'delete\', \''.$row['id'].'\'):false;">delete</a></td>';
                 echo '</tr>';

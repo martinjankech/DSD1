@@ -162,6 +162,7 @@ $users = $db->getRows('users');
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Created</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -172,10 +173,32 @@ $users = $db->getRows('users');
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['email']; ?></td>
                     <td><?php echo $row['phone']; ?></td>
+                    <td><?php echo $row['node_created']; ?></td>
                     <td>
-                        <a href="javascript:void(0);" class="btn btn-warning" rowID="<?php echo $row['id']; ?>" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
+                        <?php
+                     if (!empty ($db->getNotaviableconnection()) && in_array($row['node_created'], $db->getNotaviableconnection())){
+                        
+                         ?>
+                            <a href="javascript:void(0);" class="btn btn-warning disabled"  rowID="<?php echo $row['id']; ?>" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit" >edit</a>
+                            <a href="javascript:void(0);" class="btn btn-danger disabled" onclick="return confirm('Are you sure to delete data?')?userAction('delete', '<?php echo $row['id']; ?>'):false;">delete</a>
+                        </td>
+                        <?php
+                         }
+                         else{?>
+                            <a href="javascript:void(0);" class="btn btn-warning "  rowID="<?php echo $row['id']; ?>" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit" >edit</a>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm('Are you sure to delete data?')?userAction('delete', '<?php echo $row['id']; ?>'):false;">delete</a>
+                            </td>
+                            <?php
+
+                         }
+                         
+
+                     
+                        ?>
+                        
+                        <!-- <a href="javascript:void(0);" class="btn btn-warning "  rowID="<?php echo $row['id']; ?>" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit" >edit</a>
                         <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm('Are you sure to delete data?')?userAction('delete', '<?php echo $row['id']; ?>'):false;">delete</a>
-                    </td>
+                    </td> -->
                 </tr>
                 <?php } }else{ ?>
                 <tr><td colspan="5">No user(s) found...</td></tr>
