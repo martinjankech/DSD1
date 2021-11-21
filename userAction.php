@@ -35,10 +35,13 @@ if(!empty($_POST['action_type'])){
                 echo '<td>'.$row['email'].'</td>';
                 echo '<td>'.$row['phone'].'</td>';
                 echo '<td>'.$row['node_created'].'</td>';
-               
-                echo '<td><a href="javascript:void(0);" class="btn btn-warning" rowID="'.$row['id'].'" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
-                <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm(\'Are you sure to delete data?\')?userAction(\'delete\', \''.$row['id'].'\'):false;">delete</a></td>';
-                echo '</tr>';
+                if (!empty ($db->getNotaviableconnection()) && in_array($row['node_created'], $db->getNotaviableconnection())){
+                echo '<td><a href="javascript:void(0);" class="btn btn-warning disabled" rowID="'.$row['id'].'" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
+                <a href="javascript:void(0);" class="btn btn-danger disabled" onclick="return confirm(\'Are you sure to delete data?\')?userAction(\'delete\', \''.$row['id'].'\'):false;">delete</a></td>';
+                echo '</tr>';}
+                else {echo '<td><a href="javascript:void(0);" class="btn btn-warning" rowID="'.$row['id'].'" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
+                    <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm(\'Are you sure to delete data?\')?userAction(\'delete\', \''.$row['id'].'\'):false;">delete</a></td>';
+                    echo '</tr>';}
             }
         }else{
             echo '<tr><td colspan="5">No user(s) found...</td></tr>';
