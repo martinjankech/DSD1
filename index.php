@@ -127,9 +127,19 @@ if(!empty($db->getNotaviableconnection())){
      </div>';
 
     }
+}
+$updateip=$db->synchronize();
+if(!empty($updateip)){
+foreach($updateip as $value){
+ 
+    echo '<div class="alert alert-success" role="alert">
+    uzol '.$value.' bol synchronizovany s ostatnymi uzlami ! </div>';
+}
+
 
 
 }
+
 
 // Fetch the users data
 $users = $db->getRows('users');

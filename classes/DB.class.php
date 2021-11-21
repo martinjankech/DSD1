@@ -9,6 +9,7 @@ error_reporting(0);
 
 
 
+
 /*
  * DB Class
  * This class is used for database related (connect, insert, update, and delete) operations
@@ -23,9 +24,9 @@ class DB{
     private $conn2;
     private $aviableconnection=[];
     private $notaviableconnection=[];
-    private $dbHost     = "127.0.0.1";
-    private $dbUsername = "root";
-    private $dbPassword = "";
+    private $dbHost     = "25.69.87.199";
+    private $dbUsername = "localhost";
+    private $dbPassword = "123";
     private $dbName    = "restaurant";
 
     
@@ -115,12 +116,14 @@ public function connect(){
 //</div>';
 
   }}
-  $this->synchronize();
+  //$this->synchronize();
 
 }
 // synhronizuje databazu ktora bola odpojena a naskocila/precita vsetky sql prikazy z notavaiblenodes.txt a vykona ich na danej databaze
 public function synchronize (){
     $deletedrows=[];
+    $updatedip=[];
+    
 if(file_exists("notaviablenodes.txt")){
     $myfile = "notaviablenodes.txt";
     // nacitanie celeho textoveho suboru do pola $lines
@@ -139,10 +142,11 @@ if(file_exists("notaviablenodes.txt")){
 {
         $db->query($sqlcommand);
     //echo "uzol ".$ip." bol synchronizovany s ostatnymi uzlami".PHP_EOL;
-    echo '<div class="alert alert-success" role="alert">
-    uzol '.$ip.' bol synchronizovany s ostatnymi uzlami !
-</div>';
+    //echo '<div class="alert alert-success" role="alert">
+    //uzol '.$ip.' bol synchronizovany s ostatnymi uzlami !
+//</div>';
     array_push($deletedrows, $i);
+    array_push($updatedip,$ip);
     
 }
     else {//echo "synchronize with".$ip. "was not sucessful".PHP_EOL;
@@ -155,8 +159,9 @@ if(file_exists("notaviablenodes.txt")){
     }
     // prepise subor]
     file_put_contents("notaviablenodes.txt", implode("", $lines));
+    $uniqueip=array_unique($updatedip,SORT_STRING);
     
-
+return $uniqueip;
     
     
 }
@@ -254,6 +259,12 @@ catch(Exception $e)
             if(!array_key_exists('modified',$data)){
                 $data['modified'] = date("Y-m-d H:i:s");
             }
+            if(!array_key_exists('node_created',$data)){
+                $data['node_created'] = $this->dbHost;
+            }
+            //if(!array_key_exists('node_modified',$data)){
+              //  $data['node_modified'] = $this->dbHost;
+            //}
             foreach($data as $key=>$val){
                 $pre = ($i > 0)?', ':'';
                 $columns .= $pre.$key;
@@ -300,6 +311,9 @@ catch(Exception $e)
             $i = 0;
             if(!array_key_exists('modified',$data)){
                 $data['modified'] = date("Y-m-d H:i:s");
+            }
+            if(!array_key_exists('node_modified',$data)){
+                $data['node_modified'] = $this->dbHost;
             }
             foreach($data as $key=>$val){
                 $pre = ($i > 0)?', ':'';
